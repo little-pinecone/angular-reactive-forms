@@ -8,6 +8,7 @@ import { PageContentComponent } from './layout/page-content/page-content.compone
 import { FooterComponent } from './layout/footer/footer.component';
 import { DefaultLayoutComponent } from './layout/default-layout/default-layout.component';
 import { IntroductionComponent } from './pages/introduction/introduction.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { IntroductionComponent } from './pages/introduction/introduction.compone
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
