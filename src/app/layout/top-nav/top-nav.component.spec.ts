@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TopNavComponent } from './top-nav.component';
+import {TopNavComponent} from './top-nav.component';
+import {NgbCollapse} from "@ng-bootstrap/ng-bootstrap";
 
 describe('TopNavComponent', () => {
   let component: TopNavComponent;
@@ -8,9 +9,12 @@ describe('TopNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopNavComponent ]
+      declarations: [
+        TopNavComponent,
+        NgbCollapse
+      ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

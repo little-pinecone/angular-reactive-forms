@@ -1,1 +1,14 @@
-<p>top-nav works!</p>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="" (click)="isMenuCollapsed = true" routerLinkActive="active">Introduction</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
