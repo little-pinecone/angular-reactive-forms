@@ -1,0 +1,24 @@
+@import "~src/scss/bootstrap/basics";
+
+:host {
+  margin-top: auto;
+}
+
+footer {
+  padding-top: map_get($spacers, 3);
+  padding-bottom: map_get($spacers, 3);
+  margin-top: auto;
+  text-align: center;
+}
+
+.footer-dark {
+  color: $navbar-dark-color;
+
+  a {
+    color: $navbar-dark-color;
+
+    &:hover {
+      color: rgba(255, 255, 255, .75);
+    }
+  }
+}
