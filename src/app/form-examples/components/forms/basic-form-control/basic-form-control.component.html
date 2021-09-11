@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Basic form control</h5>
+    <form>
+      <div class="form-labeled-input">
+        <label for="cardNumber" class="form-label required">Card number: </label>
+        <input id="cardNumber" type="text" class="form-control" [formControl]="cardNumber">
+      </div>
+      <button type="button" class="btn btn-primary" (click)="updateCardNumber()" [disabled]="!cardNumber.valid">
+        Update
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Submitted value</h5>
+    <p>Card number: {{ submittedCardNumber }}</p>
+  </div>
+</div>

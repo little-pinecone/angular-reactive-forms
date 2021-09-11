@@ -9,6 +9,8 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { DefaultLayoutComponent } from './layout/default-layout/default-layout.component';
 import { IntroductionComponent } from './pages/introduction/introduction.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { BasicFormControlComponent } from './form-examples/components/forms/basic-form-control/basic-form-control.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -17,12 +19,14 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     PageContentComponent,
     FooterComponent,
     DefaultLayoutComponent,
-    IntroductionComponent
+    IntroductionComponent,
+    BasicFormControlComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,15 @@
+form:not(.no-visual-feedback) {
+  .ng-touched {
+    &.ng-invalid {
+      @extend .is-invalid;
+    }
+
+    &.ng-valid {
+      @extend .is-valid;
+    }
+  }
+
+  .invalid-feedback {
+    display: block !important;
+  }
+}

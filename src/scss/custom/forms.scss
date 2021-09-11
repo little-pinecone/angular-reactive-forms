@@ -1,0 +1,11 @@
+@import "~src/scss/bootstrap/basics";
+
+.form-labeled-input {
+  margin-bottom: map_get($spacers, 2);
+  text-align: start;
+}
+
+.form-label.required::after {
+  content: "*";
+  color: $danger;
+}
