@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {ExampleDataService} from "../../../services/example-data.service";
 
 @Component({
@@ -9,20 +9,28 @@ import {ExampleDataService} from "../../../services/example-data.service";
 })
 export class BasicFormControlComponent implements OnInit {
 
-  cardNumber = new FormControl('', Validators.required);
   submittedCardNumber: string = '';
 
-  constructor(private readonly dataService: ExampleDataService) {
+  cardForm = this.formBuilder.group({
+    cardNumber: ['', Validators.required]
+  })
+
+  constructor(private readonly dataService: ExampleDataService,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
     this.dataService.getDefaultCardNumber().subscribe(n => {
-      this.cardNumber.setValue(n);
+      this.cardForm.setValue({
+        cardNumber: n
+      });
     })
   }
 
   updateCardNumber() {
-    this.dataService.updateCardNumber(this.cardNumber.value).subscribe(n => {
+    let newValue = this.cardForm.value.cardNumber;
+
+    this.dataService.updateCardNumber(newValue).subscribe(n => {
       this.submittedCardNumber = n;
     })
   }

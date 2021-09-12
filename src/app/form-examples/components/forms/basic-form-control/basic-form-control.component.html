@@ -1,12 +1,12 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Basic form control</h5>
-    <form>
+    <form [formGroup]="cardForm" (ngSubmit)="updateCardNumber()">
       <div class="form-labeled-input">
         <label for="cardNumber" class="form-label required">Card number: </label>
-        <input id="cardNumber" type="text" class="form-control" [formControl]="cardNumber">
+        <input id="cardNumber" type="text" class="form-control" formControlName="cardNumber">
       </div>
-      <button type="button" class="btn btn-primary" (click)="updateCardNumber()" [disabled]="!cardNumber.valid">
+      <button type="button" class="btn btn-primary" (click)="updateCardNumber()" [disabled]="!cardForm.valid">
         Update
       </button>
     </form>

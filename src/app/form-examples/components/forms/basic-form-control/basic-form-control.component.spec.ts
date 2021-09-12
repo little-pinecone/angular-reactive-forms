@@ -1,8 +1,17 @@
 import {BasicFormControlComponent} from './basic-form-control.component';
-import {MockBuilder, MockRender, ngMocks} from "ng-mocks";
+import {MockBuilder, MockedComponentFixture, MockRender, ngMocks} from "ng-mocks";
 import {ExampleDataService} from "../../../services/example-data.service";
 import {Observable, of} from "rxjs";
 import {AppModule} from "../../../../app.module";
+import {ReactiveFormsModule} from "@angular/forms";
+
+function getComponent(fixture: MockedComponentFixture<BasicFormControlComponent, BasicFormControlComponent>) {
+  return fixture.point.componentInstance;
+}
+
+function getForm(fixture: MockedComponentFixture<BasicFormControlComponent, BasicFormControlComponent>) {
+  return getComponent(fixture).cardForm.value;
+}
 
 describe('BasicFormControlComponent', () => {
 
@@ -21,25 +30,26 @@ describe('BasicFormControlComponent', () => {
     submittedCardMock = of('');
 
     return MockBuilder(BasicFormControlComponent, AppModule)
-      .mock(ExampleDataService, dataServiceMock());
+      .mock(ExampleDataService, dataServiceMock())
+      .keep(ReactiveFormsModule);
   });
 
   it('should create', () => {
     const fixture = MockRender(BasicFormControlComponent);
 
-    expect(fixture.componentInstance).toBeTruthy();
+    expect(getComponent(fixture)).toBeTruthy();
   });
 
   it('should create with default card number', () => {
     const fixture = MockRender(BasicFormControlComponent);
 
-    expect(fixture.componentInstance.cardNumber.value).toEqual('123');
+    expect(getForm(fixture).cardNumber).toEqual('123');
   });
 
   it('should create with default submitted card number', () => {
     const fixture = MockRender(BasicFormControlComponent);
 
-    expect(fixture.componentInstance.submittedCardNumber).toEqual('');
+    expect(getComponent(fixture).submittedCardNumber).toEqual('');
   });
 
   it('should replace default card number with value from input', () => {
@@ -50,7 +60,7 @@ describe('BasicFormControlComponent', () => {
       '456'
     );
 
-    expect(fixture.componentInstance.cardNumber.value).toEqual('456');
+    expect(getForm(fixture).cardNumber).toEqual('456');
   });
 
   it('should update submitted card number', () => {
@@ -60,7 +70,7 @@ describe('BasicFormControlComponent', () => {
 
     ngMocks.click('button');
 
-    expect(fixture.componentInstance.submittedCardNumber).toEqual('456');
+    expect(getComponent(fixture).submittedCardNumber).toEqual('456');
   });
 
   it('should disable form submit when empty input', () => {
