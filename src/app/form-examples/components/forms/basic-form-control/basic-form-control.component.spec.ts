@@ -1,50 +1,95 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {BasicFormControlComponent} from './basic-form-control.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {MockProvider, ngMocks} from "ng-mocks";
+import {MockBuilder, MockRender, ngMocks} from "ng-mocks";
 import {ExampleDataService} from "../../../services/example-data.service";
-import {of} from "rxjs";
+import {Observable, of} from "rxjs";
+import {AppModule} from "../../../../app.module";
 
 describe('BasicFormControlComponent', () => {
-  let component: BasicFormControlComponent;
-  let fixture: ComponentFixture<BasicFormControlComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [BasicFormControlComponent],
-      imports: [
-        ReactiveFormsModule
-      ],
-      providers: [
-        MockProvider(ExampleDataService, {
-          getDefaultCardNumber: () => of('123'),
-          updateCardNumber: () => of('456')
-        })
-      ]
-    })
-      .compileComponents();
-  });
+  let defaultCardMock: Observable<string>;
+  let submittedCardMock: Observable<string>;
+
+  function dataServiceMock() {
+    return {
+      getDefaultCardNumber: () => defaultCardMock,
+      updateCardNumber: () => submittedCardMock
+    };
+  }
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BasicFormControlComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    defaultCardMock = of('123');
+    submittedCardMock = of('');
+
+    return MockBuilder(BasicFormControlComponent, AppModule)
+      .mock(ExampleDataService, dataServiceMock());
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = MockRender(BasicFormControlComponent);
+
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
   it('should create with default card number', () => {
-    expect(component.cardNumber.value).toEqual('123');
+    const fixture = MockRender(BasicFormControlComponent);
+
+    expect(fixture.componentInstance.cardNumber.value).toEqual('123');
+  });
+
+  it('should create with default submitted card number', () => {
+    const fixture = MockRender(BasicFormControlComponent);
+
+    expect(fixture.componentInstance.submittedCardNumber).toEqual('');
+  });
+
+  it('should replace default card number with value from input', () => {
+    const fixture = MockRender(BasicFormControlComponent);
+
+    ngMocks.change(
+      'input',
+      '456'
+    );
+
+    expect(fixture.componentInstance.cardNumber.value).toEqual('456');
   });
 
   it('should update submitted card number', () => {
-    expect(component.submittedCardNumber).toEqual('');
+    submittedCardMock = of('456');
+
+    const fixture = MockRender(BasicFormControlComponent);
 
     ngMocks.click('button');
 
-    expect(component.submittedCardNumber).toEqual('456');
+    expect(fixture.componentInstance.submittedCardNumber).toEqual('456');
   });
+
+  it('should disable form submit when empty input', () => {
+    const fixture = MockRender(BasicFormControlComponent);
+
+    ngMocks.change(
+      'input',
+      ''
+    );
+
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.querySelector('button').disabled).toBeTruthy();
+  });
+
+  it('should enable form submit when full input', () => {
+    defaultCardMock = of('');
+    const fixture = MockRender(BasicFormControlComponent);
+
+    expect(fixture.debugElement.nativeElement.querySelector('button').disabled).toBeTruthy();
+
+    ngMocks.change(
+      'input',
+      '456'
+    );
+
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.querySelector('button').disabled).toBeFalsy();
+  });
+
 });
